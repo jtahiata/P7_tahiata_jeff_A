@@ -4,9 +4,9 @@ Created on Sun Nov 14 14:45:47 2021
 
 @author: Jeff
 """
+
 import pandas as pd
 import streamlit as st
-import joblib
 import shap
 import matplotlib.pyplot as plt
             
@@ -15,14 +15,13 @@ shap.initjs()
 # from flask import Flask
 # app = Flask(__name__)
 
-
 # 1) Import initialisation
 
 st.title('Loan Prediction')
 test = 'test.csv'
 test_original = 'application_test.csv'
 df_feat = 'HomeCredit_columns_description.csv'
-model = joblib.load('loan_model.joblib')
+model = "https:/localhost:8000/api/model"
 
 df = pd.read_csv(test)
 df_original = pd.read_csv(test_original)
@@ -159,10 +158,3 @@ if option == 'General statistics':
     
 with st.expander("More infomation about features:"):
     st.table(df_features)
-
-# import requests
-
-# url = 'http://localhost:5000/results'
-# r = requests.post(url,json={'rate':5, 'sales_in_first_month':200, 'sales_in_second_month':400})
-
-# print(r.json())

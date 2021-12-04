@@ -5,33 +5,39 @@ Created on Sat Nov 27 16:10:13 2021
 @author: Jeff
 """
 
-from flask import Flask, jsonify
-import requests
-import sys
+from flask import Flask, request, jsonify
 import joblib
+import shap
 
 app = Flask(__name__)
 
-MODEL_URL = "https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/loan_model.joblib?raw=true"
+MODEL = joblib.load("https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/loan_model.joblib?raw=true")
+CUSTOMER_FEAT = "https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/customer_features.csv?raw=true"
 
-@app.route('/api/model/')
-def get_model():
-    r = requests.get(MODEL_URL)
-    model = joblib.load(r)
+@app.route('/api/predict/')
+def predict():
+    features = []
+    for i in range(CUSTOMER_FEAT):
+        features.append(request.args.get(CUSTOMER_FEAT[i]))
+    customer_class = MODEL.predict(features)
+    # Create and send a response to the API caller
+    return jsonify(status='complete', customer_class=customer_class)
 
-    if r.status_code != 200:
-        return jsonify({
-            'status': 'error',
-            'message': 'La requête à l\'API météo n\'a pas fonctionné. Voici le message renvoyé par l\'API : {}'.format(model)
-        }), 500
-    
-    return model
+@app.route('/api/score/')
+def score():
+    features = []
+    for i in range(CUSTOMER_FEAT):
+        features.append(request.args.get(CUSTOMER_FEAT[i]))
+    customer_score = MODEL.predict_proba(features)[:,1]
+    # Create and send a response to the API caller
+    return jsonify(status='complete', customer_score=customer_score)
+
+@app.route('/api/explainer/')
+def explainer():
+    exp = shap.TreeExplainer(MODEL)
+    # Create and send a response to the API caller
+    return jsonify(status='complete', explainer=exp)
 
 if __name__ == '__main__':
-    try:
-        port = int(sys.argv[1]) # This is for a command-line input
-    except:
-        port = 8000 # If you don't provide any port the port will be set to 12345
-
+    port = 8000
     app.run(port=port, debug=True)
-

@@ -21,16 +21,17 @@ st.title('Loan Prediction')
 test = 'test.csv'
 test_original = 'application_test.csv'
 df_feat = 'HomeCredit_columns_description.csv'
-model = "https:/localhost:8000/api/model"
+model = "https:/localhost:8000/api/predict"
 
 df = pd.read_csv(test)
+
 df_original = pd.read_csv(test_original)
 df_columns = df.columns[1:]
 df_features = pd.read_csv(df_feat, low_memory=False, encoding='latin-1')
 
 option = st.sidebar.selectbox("Which application ?",
                               ('Display database','Solvability prediction',
-                               'General statistics'))
+                                'General statistics'))
 
 st.subheader('Database')
 st.write(len(df),'customers inside the database')
@@ -92,7 +93,7 @@ if option == 'Display database':
     st.write('Shap expected value:',expected_value)
     
     nb = st.sidebar.number_input('Datafile lines to display', min_value=1,
-                                 value=1, step=1)
+                                  value=1, step=1)
     st.write('Original database')
     st.dataframe(df_original.head(int(nb)))
     st.write('Standard database')
@@ -107,7 +108,7 @@ if option == 'Solvability prediction':
     customer_data = customer_selection()
     plot = st.sidebar.selectbox("Which plot ?",
                                 ('Summary plot','Force plot',
-                                 'Decision Plot'))
+                                  'Decision Plot'))
     acceptability = model.predict(customer_data)
     probablity = float(model.predict_proba(customer_data)[:,1])
     predict_btn = st.sidebar.button('Predict acceptability')
@@ -119,10 +120,10 @@ if option == 'Solvability prediction':
     if predict_btn:
         if acceptability == 0:
             st.write('Customer will refund the loan on time with a probability of ',
-                     round(100 - probablity*100, 1),"%")
+                      round(100 - probablity*100, 1),"%")
         elif acceptability == 1:
             st.write('Customer will not refund the loan on time with a probability of ',
-                     round(probablity*100, 1),"%")
+                      round(probablity*100, 1),"%")
             
         st.write('Shap values',shap_values[1])
         

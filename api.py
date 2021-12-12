@@ -5,39 +5,26 @@ Created on Sat Nov 27 16:10:13 2021
 @author: Jeff
 """
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 import joblib
-import shap
+import numpy as np
+import pandas as pd
 
 app = Flask(__name__)
 
-MODEL = joblib.load("https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/loan_model.joblib?raw=true")
-CUSTOMER_FEAT = "https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/customer_features.csv?raw=true"
+model = joblib.load('/home/jtahiata/mysite/functions/loan_model.joblib')
 
-@app.route('/api/predict/')
+@app.route('/predict', methods=['GET','POST'])
 def predict():
-    features = []
-    for i in range(CUSTOMER_FEAT):
-        features.append(request.args.get(CUSTOMER_FEAT[i]))
-    customer_class = MODEL.predict(features)
-    # Create and send a response to the API caller
-    return jsonify(status='complete', customer_class=customer_class)
+    data = request.get_json()
+    print(data)
+    return Response(status=200)
+    # prediction = np.array2string(model.predict(data))
+    # data = json.loads(elevations)
 
-@app.route('/api/score/')
-def score():
-    features = []
-    for i in range(CUSTOMER_FEAT):
-        features.append(request.args.get(CUSTOMER_FEAT[i]))
-    customer_score = MODEL.predict_proba(features)[:,1]
-    # Create and send a response to the API caller
-    return jsonify(status='complete', customer_score=customer_score)
+    # prediction = model.predict(pd.DataFrame.from_dict(data, orient="index").values)
 
-@app.route('/api/explainer/')
-def explainer():
-    exp = shap.TreeExplainer(MODEL)
-    # Create and send a response to the API caller
-    return jsonify(status='complete', explainer=exp)
+    # return jsonify(prediction)
 
 if __name__ == '__main__':
-    port = 8000
-    app.run(port=port, debug=True)
+    app.run(debug=True)

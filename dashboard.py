@@ -9,11 +9,14 @@ import pandas as pd
 import streamlit as st
 import shap
 import matplotlib.pyplot as plt
-            
+# import plotly.express as px
+import plotly.graph_objects as go
+import joblib
+import requests
+import json
+        
 # Shap init JavaScript visualization code to notebook
 shap.initjs()
-# from flask import Flask
-# app = Flask(__name__)
 
 # 1) Import initialisation
 
@@ -21,7 +24,7 @@ st.title('Loan Prediction')
 test = 'test.csv'
 test_original = 'application_test.csv'
 df_feat = 'HomeCredit_columns_description.csv'
-model = "https:/localhost:8000/api/predict"
+model = joblib.load('loan_model.joblib')
 
 df = pd.read_csv(test)
 
@@ -40,13 +43,12 @@ customer_data = df.iloc[0,1:]
 
 # 2) Functions
 
-def customer_selection():
+def customer_idx():
 
     st.sidebar.subheader('Customer selection')
     customer = st.sidebar.selectbox('Customer ID',df_original['SK_ID_CURR'])
     idx = df[df_original['SK_ID_CURR'] == int(customer)].index
-    customer_data = df.iloc[idx,1:] # 1er colonne = index & iloc car import
-    return customer_data
+    return idx
 
 def summuary():
     
@@ -77,7 +79,6 @@ def decision():
     st.pyplot(fig)
     st.write('It plots the shap values using an additive strength layout. Here we can see which features contributed most positively or negatively to the prediction.')
 
-
 # 3) Shap : Create object that can calculate shap values based on a tree model
 
 explainer = shap.TreeExplainer(model)
@@ -95,7 +96,15 @@ if option == 'Display database':
     nb = st.sidebar.number_input('Datafile lines to display', min_value=1,
                                   value=1, step=1)
     st.write('Original database')
-    st.dataframe(df_original.head(int(nb)))
+    fig = go.Figure(go.Table(
+        header=dict(values=list(df_original.head(int(nb)).columns),
+                    fill_color='#FD8E72',
+                    align='center'),
+        cells=dict(values=df_original.head(int(nb)).values,
+                    fill_color='#E5ECF6',
+                    align='center')))   
+    st.write(fig)
+    # st.dataframe(df_original.head(int(nb)))
     st.write('Standard database')
     st.dataframe(df.head(int(nb)))
     
@@ -104,8 +113,22 @@ if option == 'Display database':
 if option == 'Solvability prediction':
     
     st.subheader('Customer selected')
-    st.write(customer_data)
-    customer_data = customer_selection()
+    idx = customer_idx()
+    
+    id_curr={'SK ID CURR':int(idx.values)}
+    
+    customer_data = df.iloc[idx,1:] # 1er colonne = index & iloc car import
+    # json_customer = json.loads(customer_data.to_json(orient='records'))
+    json_customer = customer_data.to_json(orient='records')
+    
+    url = 'http://jtahiata.pythonanywhere.com/predict'
+    # requests.post(url, data=json_customer)
+    r = requests.post(url, json=json.loads(json_customer))
+    r.json()
+    st.write(json_customer)
+    # st.write(pd.DataFrame.from_dict(json_customer, orient="index"))
+    # st.write(r.json())
+    
     plot = st.sidebar.selectbox("Which plot ?",
                                 ('Summary plot','Force plot',
                                   'Decision Plot'))
@@ -135,7 +158,7 @@ if option == 'Solvability prediction':
             
     if plot =='Decision Plot':
         decision()
-        
+
 # 6) General statistics
 
 if option == 'General statistics':

@@ -97,10 +97,10 @@ if option == 'Display database':
                                   value=1, step=1)
     st.write('Original database')
     fig = go.Figure(go.Table(
-        header=dict(values=list(df_original.head(int(nb)).columns),
+        header=dict(values=list(df_original.columns),
                     fill_color='#FD8E72',
                     align='center'),
-        cells=dict(values=df_original.head(int(nb)).values,
+        cells=dict(values=df_original.values,
                     fill_color='#E5ECF6',
                     align='center')))   
     st.plotly_chart(fig)

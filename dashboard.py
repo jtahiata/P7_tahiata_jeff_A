@@ -178,7 +178,8 @@ if option == 'General statistics':
         
         st.subheader('Crossed stats between features')
         # fig, ax = plt.subplots()
-        fig = px.scatter(x = df_original.loc[:,feat1], y = df_original.loc[:,feat2])
+        # fig = px.scatter(x = df_original.loc[:,feat1], y = df_original.loc[:,feat2])
+        fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
         # plt.xlabel(str(feat1))
         # plt.ylabel(str(feat2))
         fig.show()

@@ -148,9 +148,7 @@ if option == 'Solvability prediction':
                          round(probability*100, 1),"%")
         elif acceptability == 1:
             st.write('Customer will not refund the loan on time with a probability of ',
-                         round(probability*100, 1),"%")
-            
-    st.write('Shap values',shap_values[1])
+                         round((1 - probability)*100, 1),"%")
         
     if plot == 'Summary plot':
         summuary()

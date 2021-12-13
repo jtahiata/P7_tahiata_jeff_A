@@ -119,15 +119,14 @@ if option == 'Solvability prediction':
     
     customer_data = df.iloc[idx,1:] # 1er colonne = index & iloc car import
     # json_customer = json.loads(customer_data.to_json(orient='records'))
-    json_customer = customer_data.to_json(orient='records')
+    json_customer = json.loads(customer_data.to_json(orient='records'))[0]
+    data_json = {'data': json_customer}
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     
     url = 'http://jtahiata.pythonanywhere.com/predict'
-    # requests.post(url, data=json_customer)
-    r = requests.post(url, json=json.loads(json_customer))
-    r.json()
-    st.write(json_customer)
-    # st.write(pd.DataFrame.from_dict(json_customer, orient="index"))
-    # st.write(r.json())
+    r = requests.post(url, json=data_json, headers=headers)
+    st.write(data_json)
+    predict = json.loads(r.content.decode("utf-8"))
     
     plot = st.sidebar.selectbox("Which plot ?",
                                 ('Summary plot','Force plot',
@@ -138,17 +137,20 @@ if option == 'Solvability prediction':
     st.subheader('Solvability prediction')
     
     # Calculate Shap values
-    shap_values = explainer.shap_values(customer_data)        
+    shap_values = explainer.shap_values(customer_data)
+
+    acceptability = predict['Prediction'][0]
+    probability = predict['Probability'][0][0]      
     
     if predict_btn:
         if acceptability == 0:
             st.write('Customer will refund the loan on time with a probability of ',
-                      round(100 - probablity*100, 1),"%")
+                         round(probability*100, 1),"%")
         elif acceptability == 1:
             st.write('Customer will not refund the loan on time with a probability of ',
-                      round(probablity*100, 1),"%")
+                         round(probability*100, 1),"%")
             
-        st.write('Shap values',shap_values[1])
+    st.write('Shap values',shap_values[1])
         
     if plot == 'Summary plot':
         summuary()

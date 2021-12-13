@@ -17,8 +17,16 @@ model = joblib.load('/home/jtahiata/mysite/functions/loan_model.joblib')
 @app.route('/predict', methods=['GET','POST'])
 def predict():
     data = request.get_json()
-    print(data)
-    return Response(status=200)
+    data_json = data['data']
+    data_val = [list(data_json.values())]
+    predict_val = model.predict(data_val)
+    prediction = predict_val.tolist()
+    proba_val = model.predict_proba(data_val)
+    probabilite = proba_val.tolist()
+
+    return jsonify(Prediction=prediction, Probabilite=probabilite)
+    # print(data)
+    # return Response(status=200)
     # prediction = np.array2string(model.predict(data))
     # data = json.loads(elevations)
 

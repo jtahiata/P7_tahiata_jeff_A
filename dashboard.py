@@ -96,17 +96,17 @@ if option == 'Display database':
     nb = st.sidebar.number_input('Datafile lines to display', min_value=1,
                                   value=1, step=1)
     st.write('Original database')
-    # fig = go.Figure(go.Table(
-    #     header=dict(values=list(df_original.head(int(nb)).columns),
-    #                 fill_color='#FD8E72',
-    #                 align='center'),
-    #     cells=dict(values=df_original.head(int(nb)).values,
-    #                 fill_color='#E5ECF6',
-    #                 align='center')))   
-    # st.write(fig)
-    st.dataframe(df_original.head(int(nb)))
-    st.write('Standard database')
-    st.dataframe(df.head(int(nb)))
+    fig = go.Figure(go.Table(
+        header=dict(values=list(df_original.head(int(nb)).columns),
+                    fill_color='#FD8E72',
+                    align='center'),
+        cells=dict(values=df_original.head(int(nb)).values,
+                    fill_color='#E5ECF6',
+                    align='center')))   
+    st.plotly_chart(fig)
+    # st.dataframe(df_original.head(int(nb)))
+    # st.write('Standard database')
+    # st.dataframe(df.head(int(nb)))
     
     with st.expander("More infomation about features:"):
         st.table(df_features.iloc[:,1:])

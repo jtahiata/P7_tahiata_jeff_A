@@ -9,7 +9,7 @@ import pandas as pd
 import streamlit as st
 import shap
 import matplotlib.pyplot as plt
-# import plotly.express as px
+import plotly.express as px
 import plotly.graph_objects as go
 import joblib
 import requests
@@ -172,13 +172,13 @@ if option == 'General statistics':
     feat2 = st.sidebar.selectbox("2nd feature ?",
                                 (df_columns))
     
-    stat_btn = st.sidebar.button('Customer statistics')
+    stat_btn = st.sidebar.button('Customers statistics')
     
     if stat_btn:
         
         st.subheader('Crossed stats between features')
         fig, ax = plt.subplots()
-        ax.scatter(x = df_original.loc[:,feat1], y = df_original.loc[:,feat2])
+        fig = px.scatter(x = df_original.loc[:,feat1], y = df_original.loc[:,feat2])
         plt.xlabel(str(feat1))
         plt.ylabel(str(feat2))
-        st.pyplot(fig)
+        fig.show()

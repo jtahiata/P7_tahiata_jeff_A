@@ -108,6 +108,9 @@ if option == 'Display database':
     st.write('Standard database')
     st.dataframe(df.head(int(nb)))
     
+    with st.expander("More infomation about features:"):
+        st.table(df_features)
+    
 # 5) Solvability prediction
 
 if option == 'Solvability prediction':
@@ -179,6 +182,3 @@ if option == 'General statistics':
         plt.xlabel(str(feat1))
         plt.ylabel(str(feat2))
         st.pyplot(fig)
-    
-with st.expander("More infomation about features:"):
-    st.table(df_features)

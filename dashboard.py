@@ -182,4 +182,4 @@ if option == 'General statistics':
         fig = px.scatter(x=[0, 1, 2, 3, 4], y=[0, 1, 4, 9, 16])
         # plt.xlabel(str(feat1))
         # plt.ylabel(str(feat2))
-        fig.show()
+        st.plotly_chart(fig)

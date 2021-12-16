@@ -54,7 +54,7 @@ def summary():
     
     st.subheader('Figure 1 : Summary plot')
     fig, ax = plt.subplots()
-    shap.summary_plot(shap_values, feature_names = df_columns)
+    shap.summary_plot(pd.Series(shap_values), feature_names = df_columns)
     st.pyplot(fig)
     st.write('This diagram represents the distribution of shap values for each entity in the data set.')
 

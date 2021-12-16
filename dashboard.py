@@ -55,7 +55,7 @@ def summuary():
     
     st.subheader('Figure 1 : Summary plot')
     fig, ax = plt.subplots()
-    shap.summuary_plot(shap_values[1], feature_names = df_columns)
+    shap.summuary_plot(shap_values, features = df_columns)
     st.pyplot(fig)
     st.write('This diagram represents the distribution of shap values for each entity in the data set.')
 

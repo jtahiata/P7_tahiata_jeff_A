@@ -24,23 +24,19 @@ st.title('Loan Prediction')
 test = 'test.csv'
 test_original = 'application_test.csv'
 df_feat = 'HomeCredit_columns_description.csv'
-# model = joblib.load('loan_model.joblib')
 
 df = pd.read_csv(test)
 
 df_original = pd.read_csv(test_original)
 df_columns = df.columns[1:]
-st.write(df_columns)
 df_features = pd.read_csv(df_feat, low_memory=False, encoding='latin-1')
 
-print(df_original.columns)
-print(df_columns)
+st.write(df_original.columns)
+st.write(df_columns)
 
 option = st.sidebar.selectbox("Which application ?",
                               ('Display database','Solvability prediction',
                                 'General statistics'))
-
-customer_data = df.iloc[0,1:]
 
 # 2) Functions
 

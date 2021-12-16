@@ -25,7 +25,7 @@ st.title('Loan Prediction')
 test = 'test.csv'
 test_original = 'application_test.csv'
 df_feat = 'HomeCredit_columns_description.csv'
-model = joblib.load('loan_model.joblib')
+# model = joblib.load('loan_model.joblib')
 
 df = pd.read_csv(test)
 

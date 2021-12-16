@@ -12,7 +12,6 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import numpy as np
 # import plotly.graph_objects as go
-import joblib
 import requests
 import json
         
@@ -51,11 +50,11 @@ def customer_idx():
     idx = df[df_original['SK_ID_CURR'] == int(customer)].index
     return idx
 
-def summuary():
+def summary():
     
     st.subheader('Figure 1 : Summary plot')
     fig, ax = plt.subplots()
-    shap.summary_plot(shap_values, customer_data, feature_names = df_columns)
+    shap.summary_plot(shap_values, feature_names = df_columns)
     st.pyplot(fig)
     st.write('This diagram represents the distribution of shap values for each entity in the data set.')
 
@@ -79,16 +78,8 @@ def decision():
                                   link='logit', highlight=0)
     st.pyplot(fig)
     st.write('It plots the shap values using an additive strength layout. Here we can see which features contributed most positively or negatively to the prediction.')
-
-# 3) Shap : Create object that can calculate shap values based on a tree model
-
-# explainer = shap.TreeExplainer(model)
-# expected_value = explainer.expected_value[1]
-
-# if isinstance(expected_value, np.ndarray):
-#     expected_value = expected_value[1]
     
-# 4) Display database
+# 3) Display database
 
 if option == 'Display database':
         
@@ -101,7 +92,7 @@ if option == 'Display database':
     with st.expander("More infomation about features:"):
         st.table(df_features.iloc[:,1:])
     
-# 5) Solvability prediction
+# 4) Solvability prediction
 
 if option == 'Solvability prediction':
     
@@ -123,8 +114,6 @@ if option == 'Solvability prediction':
     plot = st.sidebar.selectbox("Which plot ?",
                                 ('Summary plot','Force plot',
                                   'Decision Plot'))
-    # acceptability = model.predict(customer_data)
-    # probablity = float(model.predict_proba(customer_data)[:,1])
     predict_btn = st.sidebar.button('Predict acceptability')
     st.subheader('Solvability prediction')
 
@@ -132,7 +121,6 @@ if option == 'Solvability prediction':
     probability = predict['Probability'][0][0]      
         
     # Calculate Shap values
-    # shap_values = explainer.shap_values(customer_data)
     expected_value = predict['Expected_value']
     shap_values_ = predict['Shap_values']
     shap_values = np.array(shap_values_)
@@ -152,7 +140,7 @@ if option == 'Solvability prediction':
                          round((1 - probability)*100, 1),"%")
         
     if plot == 'Summary plot':
-        summuary()
+        summary()
             
     if plot == 'Force plot':
         force()
@@ -160,7 +148,7 @@ if option == 'Solvability prediction':
     if plot =='Decision Plot':
         decision()
 
-# 6) General statistics
+# 5) General statistics
 
 if option == 'General statistics':
         

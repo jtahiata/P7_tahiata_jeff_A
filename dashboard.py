@@ -36,9 +36,6 @@ option = st.sidebar.selectbox("Which application ?",
                               ('Display database','Solvability prediction',
                                 'General statistics'))
 
-st.subheader('Database')
-st.write(len(df),'customers inside the database')
-
 customer_data = df.iloc[0,1:]
 
 # 2) Functions
@@ -74,11 +71,14 @@ def decision():
 # 3) Display database
 
 if option == 'Display database':
+    
+    st.subheader('Database')
+    st.write(len(df),'customers inside the database')
         
-    st.write('Original database')
+    st.write('Original database : 100 first customers')
     st.write(df_original.head(100))
     
-    st.write('Standard database')
+    st.write('Standardized database : 100 first customers')
     st.dataframe(df.head(100))
     
     with st.expander("More infomation about features:"):
@@ -132,6 +132,9 @@ if option == 'Solvability prediction':
         if plot =='Decision Plot':
             decision()
 
+        with st.expander("More infomation about features:"):
+            st.table(df_features.iloc[:,1:])
+
 # 5) General statistics
 
 if option == 'General statistics':
@@ -141,6 +144,9 @@ if option == 'General statistics':
     
     feat2 = st.sidebar.selectbox("2nd feature ?",
                                 (df_columns))
+    
+    with st.expander("More infomation about features:"):
+        st.table(df_features.iloc[:,1:])
     
     stat_btn = st.sidebar.button('Customers statistics')
     

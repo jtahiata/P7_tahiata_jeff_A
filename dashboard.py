@@ -104,7 +104,7 @@ if option == 'Solvability prediction':
     predict = json.loads(r.content.decode("utf-8"))
     
     plot = st.sidebar.selectbox("Which plot ?",
-                                ('Summary plot','Force plot',
+                                ('Force plot',
                                   'Decision Plot'))
     predict_btn = st.sidebar.button('Predict acceptability')
     st.subheader('Solvability prediction')
@@ -116,11 +116,6 @@ if option == 'Solvability prediction':
     expected_value = predict['Expected_value']
     shap_values_ = predict['Shap_values']
     shap_values = np.array(shap_values_)
-    
-    st.write(acceptability)
-    st.write(probability)
-    st.write(expected_value)
-    st.write(shap_values)
     
     if predict_btn:
         

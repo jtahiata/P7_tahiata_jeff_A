@@ -134,8 +134,8 @@ if option == 'Solvability prediction':
     # Calculate Shap values
     # shap_values = explainer.shap_values(customer_data)
     expected_value = predict['Expected_value']
-    shap_values_ = json.dumps(predict['Shap_values'])
-    shap_values = pd.DataFrame(eval(shap_values_))
+    shap_values_ = predict['Shap_values']
+    shap_values = pd.DataFrame.from_dict(eval(shap_values_), orient='columns', dtype=None, columns=df_columns)
     
     st.write(acceptability)
     st.write(probability)

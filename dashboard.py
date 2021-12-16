@@ -10,6 +10,7 @@ import streamlit as st
 import shap
 import matplotlib.pyplot as plt
 import plotly.express as px
+import numpy as np
 # import plotly.graph_objects as go
 import joblib
 import requests
@@ -54,7 +55,7 @@ def summuary():
     
     st.subheader('Figure 1 : Summary plot')
     fig, ax = plt.subplots()
-    shap.summary_plot(shap_values, feature_names = df_columns)
+    shap.(shap_values, feature_names = df_columns)
     st.pyplot(fig)
     st.write('This diagram represents the distribution of shap values for each entity in the data set.')
 
@@ -133,7 +134,7 @@ if option == 'Solvability prediction':
     # Calculate Shap values
     # shap_values = explainer.shap_values(customer_data)
     expected_value = predict['Expected_value']
-    shap_values = json.dumps(predict['Shap_values'])
+    shap_values = np.array(json.dumps(predict['Shap_values']))
     
     st.write(acceptability)
     st.write(probability)

@@ -135,7 +135,7 @@ if option == 'Solvability prediction':
     # shap_values = explainer.shap_values(customer_data)
     expected_value = predict['Expected_value']
     shap_values_ = json.dumps(predict['Shap_values'])
-    shap_values = pd.DataFrame(shap_values_)
+    shap_values = pd.DataFrame(eval(shap_values_))
     
     st.write(acceptability)
     st.write(probability)

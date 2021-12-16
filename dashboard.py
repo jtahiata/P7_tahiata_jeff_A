@@ -93,8 +93,8 @@ if option == 'Display database':
         
     st.write('Shap expected value:',expected_value)
     
-    nb = st.sidebar.number_input('Datafile lines to display', min_value=1,
-                                  value=1, step=1)
+    # nb = st.sidebar.number_input('Datafile lines to display', min_value=1,
+    #                               value=1, step=1)
     st.write('Original database')
     fig = go.Figure(go.Table(
         header=dict(values=list(df_original.columns),

@@ -54,7 +54,7 @@ def summuary():
     
     st.subheader('Figure 1 : Summary plot')
     fig, ax = plt.subplots()
-    # shap.summary_plot(shap_values, feature_names = df_columns)
+    shap.summary_plot(shap_values, feature_names = df_columns)
     st.pyplot(fig)
     st.write('This diagram represents the distribution of shap values for each entity in the data set.')
 
@@ -62,7 +62,7 @@ def force():
     
     st.subheader('Figure 2 : Force plot')
     st.set_option('deprecation.showPyplotGlobalUse', False)
-    shap.force_plot(expected_value, shap_values[1],
+    shap.force_plot(expected_value, shap_values,
                     feature_names = df_columns, link='logit',
                     matplotlib=True, figsize=(12,3))
     st.pyplot(bbox_inches='tight',dpi=300,pad_inches=0)
@@ -74,7 +74,7 @@ def decision():
     
     st.subheader('Figure 3: Decision Plot')
     fig, ax = plt.subplots()
-    shap.decision_plot(expected_value, shap_values[1], df_columns,
+    shap.decision_plot(expected_value, shap_values, df_columns,
                                   link='logit', highlight=0)
     st.pyplot(fig)
     st.write('It plots the shap values using an additive strength layout. Here we can see which features contributed most positively or negatively to the prediction.')

@@ -91,20 +91,20 @@ expected_value = explainer.expected_value[1]
 
 if option == 'Display database':
         
-    st.write('Shap expected value:',expected_value)
+    # st.write('Shap expected value:',expected_value)
     
     # nb = st.sidebar.number_input('Datafile lines to display', min_value=1,
     #                               value=1, step=1)
     st.write('Original database')
-    fig = go.Figure(go.Table(
-        header=dict(values=list(df_original.head(100).columns),
-                    fill_color='#FD8E72',
-                    align='center'),
-        cells=dict(values=df_original.head(100).values,
-                    fill_color='#E5ECF6',
-                    align='center')))   
-    st.plotly_chart(fig)
-    # st.dataframe(df_original.head(int(nb)))
+    # fig = go.Figure(go.Table(
+    #     header=dict(values=list(df_original.head(100).columns),
+    #                 fill_color='#FD8E72',
+    #                 align='center'),
+    #     cells=dict(values=df_original.head(100).values,
+    #                 fill_color='#E5ECF6',
+    #                 align='center')))   
+    # st.plotly_chart(fig)
+    st.write(df_original.head(100))
     # st.write('Standard database')
     # st.dataframe(df.head(int(nb)))
     

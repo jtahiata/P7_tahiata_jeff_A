@@ -10,7 +10,7 @@ import streamlit as st
 import shap
 import matplotlib.pyplot as plt
 import plotly.express as px
-import plotly.graph_objects as go
+# import plotly.graph_objects as go
 import joblib
 import requests
 import json
@@ -54,7 +54,7 @@ def summuary():
     
     st.subheader('Figure 1 : Summary plot')
     fig, ax = plt.subplots()
-    shap.summary_plot(shap_values, feature_names = df_columns)
+    # shap.summary_plot(shap_values, feature_names = df_columns)
     st.pyplot(fig)
     st.write('This diagram represents the distribution of shap values for each entity in the data set.')
 
@@ -81,8 +81,8 @@ def decision():
 
 # 3) Shap : Create object that can calculate shap values based on a tree model
 
-explainer = shap.TreeExplainer(model)
-expected_value = explainer.expected_value[1]
+# explainer = shap.TreeExplainer(model)
+# expected_value = explainer.expected_value[1]
 
 # if isinstance(expected_value, np.ndarray):
 #     expected_value = expected_value[1]
@@ -91,22 +91,11 @@ expected_value = explainer.expected_value[1]
 
 if option == 'Display database':
         
-    # st.write('Shap expected value:',expected_value)
-    
-    # nb = st.sidebar.number_input('Datafile lines to display', min_value=1,
-    #                               value=1, step=1)
     st.write('Original database')
-    # fig = go.Figure(go.Table(
-    #     header=dict(values=list(df_original.head(100).columns),
-    #                 fill_color='#FD8E72',
-    #                 align='center'),
-    #     cells=dict(values=df_original.head(100).values,
-    #                 fill_color='#E5ECF6',
-    #                 align='center')))   
-    # st.plotly_chart(fig)
     st.write(df_original.head(100))
-    # st.write('Standard database')
-    # st.dataframe(df.head(int(nb)))
+    
+    st.write('Standard database')
+    st.dataframe(df.head(100))
     
     with st.expander("More infomation about features:"):
         st.table(df_features.iloc[:,1:])
@@ -121,7 +110,6 @@ if option == 'Solvability prediction':
     id_curr={'SK ID CURR':int(idx.values)}
     
     customer_data = df.iloc[idx,1:] # 1er colonne = index & iloc car import
-    # json_customer = json.loads(customer_data.to_json(orient='records'))
     json_customer = json.loads(customer_data.to_json(orient='records'))[0]
     data_json = {'data': json_customer}
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
@@ -134,18 +122,21 @@ if option == 'Solvability prediction':
     plot = st.sidebar.selectbox("Which plot ?",
                                 ('Summary plot','Force plot',
                                   'Decision Plot'))
-    acceptability = model.predict(customer_data)
-    probablity = float(model.predict_proba(customer_data)[:,1])
+    # acceptability = model.predict(customer_data)
+    # probablity = float(model.predict_proba(customer_data)[:,1])
     predict_btn = st.sidebar.button('Predict acceptability')
     st.subheader('Solvability prediction')
-    
-    # Calculate Shap values
-    shap_values = explainer.shap_values(customer_data)
 
     acceptability = predict['Prediction'][0]
     probability = predict['Probability'][0][0]      
+        
+    # Calculate Shap values
+    # shap_values = explainer.shap_values(customer_data)
+    expected_value = predict['Expected_value'][0]
+    shap_values = predict['Shap_values'][0]
     
     if predict_btn:
+        
         if acceptability == 0:
             st.write('Customer will refund the loan on time with a probability of ',
                          round(probability*100, 1),"%")
@@ -177,7 +168,6 @@ if option == 'General statistics':
     if stat_btn:
         
         st.subheader('Crossed stats between features')
-        # fig, ax = plt.subplots()
         fig = px.scatter(x = df_original.loc[:,feat1], y = df_original.loc[:,feat2])
         plt.xlabel(str(feat1))
         plt.ylabel(str(feat2))

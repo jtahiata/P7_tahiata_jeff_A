@@ -133,7 +133,7 @@ if option == 'Solvability prediction':
     # Calculate Shap values
     # shap_values = explainer.shap_values(customer_data)
     expected_value = predict['Expected_value']
-    shap_values = predict['Shap_values'][0]
+    shap_values = json.dumps(predict['Shap_values'])
     
     st.write(acceptability)
     st.write(probability)

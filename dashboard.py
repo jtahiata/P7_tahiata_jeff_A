@@ -50,17 +50,9 @@ def customer_idx():
     idx = df[df_original['SK_ID_CURR'] == int(customer)].index
     return idx
 
-def summary():
-    
-    st.subheader('Figure 1 : Summary plot')
-    fig, ax = plt.subplots()
-    shap.summary_plot(pd.Series(shap_values), feature_names = df_columns)
-    st.pyplot(fig)
-    st.write('This diagram represents the distribution of shap values for each entity in the data set.')
-
 def force():
     
-    st.subheader('Figure 2 : Force plot')
+    st.subheader('Figure 1 : Force plot')
     st.set_option('deprecation.showPyplotGlobalUse', False)
     shap.force_plot(expected_value, shap_values,
                     feature_names = df_columns, link='logit',
@@ -72,7 +64,7 @@ def force():
 
 def decision():
     
-    st.subheader('Figure 3: Decision Plot')
+    st.subheader('Figure 2: Decision Plot')
     fig, ax = plt.subplots()
     shap.decision_plot(expected_value, shap_values, df_columns,
                                   link='logit', highlight=0)
@@ -138,15 +130,12 @@ if option == 'Solvability prediction':
         elif acceptability == 1:
             st.write('Customer will not refund the loan on time with a probability of ',
                          round((1 - probability)*100, 1),"%")
-        
-    if plot == 'Summary plot':
-        summary()
             
-    if plot == 'Force plot':
-        force()
-            
-    if plot =='Decision Plot':
-        decision()
+        if plot == 'Force plot':
+            force()
+                
+        if plot =='Decision Plot':
+            decision()
 
 # 5) General statistics
 

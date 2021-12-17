@@ -28,8 +28,9 @@ df_feat = 'HomeCredit_columns_description.csv'
 # Standardize database
 df = pd.read_csv(test)
 df_columns = df.columns[1:]
-df_columns_bool = df.loc[:,df.nunique() == 2]
-df_columns_nbool = set(df_columns_bool) - set(df_columns)
+df_columns_bool = df.iloc[:,1:].loc[:,df.nunique() == 2]
+df_columns_nbool = list(set(df_columns_bool) - set(df_columns))
+df_columns_nbool.sort()
 
 # Original database
 df_original = pd.read_csv(test_original)
@@ -143,13 +144,13 @@ if option == 'Solvability prediction':
 if option == 'Crossed features':
         
     feat1 = st.sidebar.selectbox("1st feature (none bool)?",
-                                (df_columns_bool.sort_values()))
+                                (df_columns_nbool))
     
     feat2 = st.sidebar.selectbox("2nd feature (none bool)?",
-                                (df_columns_bool.sort_values()))
+                                (df_columns_nbool))
     
     feat3 = st.sidebar.selectbox("3rd feature (bool)?",
-                                (df_columns_nbool.sort_values()))
+                                (df_columns_bool.sort_values()))
     
     with st.expander("More infomation about features:"):
         st.table(df_features.iloc[:,1:].sort_values('Row'))
@@ -168,6 +169,6 @@ if option == 'Crossed features':
         
     else :
         
-        st.subheader('Crossed features')
-        fig = px.imshow(df.loc[:,df_columns_nbool])
+        st.subheader('Correlation matrix on non bool features')
+        fig = px.imshow(df.loc[:,df_columns_nbool].corr())
         st.plotly_chart(fig)

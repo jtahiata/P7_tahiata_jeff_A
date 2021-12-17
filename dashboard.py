@@ -137,10 +137,10 @@ if option == 'Solvability prediction':
 if option == 'Crossed features':
         
     feat1 = st.sidebar.selectbox("1st feature ?",
-                                (df_columns.sort()))
+                                (df_columns.sort_values()))
     
     feat2 = st.sidebar.selectbox("2nd feature ?",
-                                (df_columns.sort()))
+                                (df_columns.sort_values()))
     
     with st.expander("More infomation about features:"):
         st.table(df_features.iloc[:,1:].sort_values('Row'))

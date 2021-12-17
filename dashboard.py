@@ -152,23 +152,27 @@ if option == 'Crossed features':
     feat3 = st.sidebar.selectbox("3rd feature (bool)?",
                                 (df_columns_bool.sort_values()))
     
-    with st.expander("More infomation about features:"):
-        st.table(df_features.iloc[:,1:].sort_values('Row'))
-    
     cross_btn = st.sidebar.button('Crossed features')
+    corr_btn = st.sidebar.button('Corr features')
     
     if cross_btn:
         
         st.subheader('Crossed features')
-        fig = px.scatter(x = df_original.loc[:,feat1], y = df_original.loc[:,feat2],
-                         color = df_original.loc[:,feat3], 
+        fig = px.scatter(x = df.loc[:,feat1], y = df.loc[:,feat2],
+                         color = df.loc[:,feat3], 
                          labels={"x": str(feat1), "y": str(feat2), "color": str(feat3)})
         plt.xlabel(str(feat1))
         plt.ylabel(str(feat2))
         st.plotly_chart(fig)
+
+        with st.expander("More infomation about features:"):
+            st.table(df_features.iloc[:,1:].sort_values('Row'))
         
-    else :
+    elif corr_btn :
         
         st.subheader('Correlation matrix on non bool features')
         fig = px.imshow(df.loc[:,df_columns_nbool].corr())
         st.plotly_chart(fig)
+
+        with st.expander("More infomation about features:"):
+            st.table(df_features.iloc[:,1:].sort_values('Row'))

@@ -150,7 +150,8 @@ if option == 'General statistics':
     if stat_btn:
         
         st.subheader('Crossed stats between features')
-        fig = px.scatter(x = df_original.loc[:,feat1], y = df_original.loc[:,feat2])
+        fig = px.scatter(x = df_original.loc[:,feat1], y = df_original.loc[:,feat2],
+                         labels={"x": str(feat1), "y": str(feat2)})
         plt.xlabel(str(feat1))
         plt.ylabel(str(feat2))
         st.plotly_chart(fig)

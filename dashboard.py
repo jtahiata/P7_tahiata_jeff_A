@@ -29,7 +29,7 @@ df_feat = 'HomeCredit_columns_description.csv'
 df = pd.read_csv(test)
 df_columns = df.columns[1:]
 df_columns_bool = df.iloc[:,1:].loc[:,df.nunique() == 2].columns
-df_columns_nbool = list(set(df_columns_bool) - set(df_columns))
+df_columns_nbool = list(set(df_columns) - set(df_columns_bool))
 df_columns_nbool.sort()
 
 # Original database

@@ -28,7 +28,7 @@ df_feat = 'HomeCredit_columns_description.csv'
 # Standardize database
 df = pd.read_csv(test)
 df_columns = df.columns[1:]
-df_columns_bool = df.iloc[:,1:].loc[:,df.nunique() == 2]
+df_columns_bool = df.iloc[:,1:].loc[:,df.nunique() == 2].columns
 df_columns_nbool = list(set(df_columns_bool) - set(df_columns))
 df_columns_nbool.sort()
 
@@ -150,7 +150,7 @@ if option == 'Crossed features':
                                 (df_columns_nbool))
     
     feat3 = st.sidebar.selectbox("3rd feature (bool)?",
-                                (df_columns_bool.sort()))
+                                (df_columns_bool.sort_values()))
     
     with st.expander("More infomation about features:"):
         st.table(df_features.iloc[:,1:].sort_values('Row'))

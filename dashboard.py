@@ -150,7 +150,7 @@ if option == 'Crossed features':
                                 (df_columns_nbool))
     
     feat3 = st.sidebar.selectbox("3rd feature (bool)?",
-                                (df_columns_bool.sort_values()))
+                                (df_columns_bool.sort()))
     
     with st.expander("More infomation about features:"):
         st.table(df_features.iloc[:,1:].sort_values('Row'))

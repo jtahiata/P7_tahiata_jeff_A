@@ -33,7 +33,7 @@ df_features = pd.read_csv(df_feat, low_memory=False, encoding='latin-1')
 
 option = st.sidebar.selectbox("Which application ?",
                               ('Display database','Solvability prediction',
-                                'General statistics'))
+                                'Crossed features'))
 
 # 2) Functions
 
@@ -134,7 +134,7 @@ if option == 'Solvability prediction':
 
 # 5) General statistics
 
-if option == 'General statistics':
+if option == 'Crossed features':
         
     feat1 = st.sidebar.selectbox("1st feature ?",
                                 (df_columns))
@@ -145,11 +145,11 @@ if option == 'General statistics':
     with st.expander("More infomation about features:"):
         st.table(df_features.iloc[:,1:])
     
-    stat_btn = st.sidebar.button('Customers statistics')
+    stat_btn = st.sidebar.button('Crossed features')
     
     if stat_btn:
         
-        st.subheader('Crossed stats between features')
+        st.subheader('Crossed features')
         fig = px.scatter(x = df_original.loc[:,feat1], y = df_original.loc[:,feat2],
                          labels={"x": str(feat1), "y": str(feat2)})
         plt.xlabel(str(feat1))

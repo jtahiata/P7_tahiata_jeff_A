@@ -144,10 +144,10 @@ if option == 'Solvability prediction':
 if option == 'Crossed features':
         
     feat1 = st.sidebar.selectbox("1st feature (none bool)?",
-                                (df_columns_nbool))
+                                df_columns_nbool)
     
     feat2 = st.sidebar.selectbox("2nd feature (none bool)?",
-                                (df_columns_nbool))
+                                df_columns_nbool)
     
     feat3 = st.sidebar.selectbox("3rd feature (bool)?",
                                 (df_columns_bool.sort_values()))

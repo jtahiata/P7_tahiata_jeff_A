@@ -79,7 +79,7 @@ if option == 'Display database':
     st.dataframe(df.head(100))
     
     with st.expander("More infomation about features:"):
-        st.table(df_features.iloc[:,1:])
+        st.table(df_features.iloc[1:,1:])
     
 # 4) Solvability prediction
 

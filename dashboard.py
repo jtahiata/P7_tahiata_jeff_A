@@ -79,7 +79,7 @@ if option == 'Display database':
     st.dataframe(df.iloc[:,1:].head(100))
     
     with st.expander("More infomation about features:"):
-        st.table(df_features.iloc[:,1:])
+        st.table(df_features.iloc[:,1:].sort_values('Row'))
     
 # 4) Solvability prediction
 
@@ -130,20 +130,20 @@ if option == 'Solvability prediction':
             decision()
 
         with st.expander("More infomation about features:"):
-            st.table(df_features.iloc[:,1:])
+            st.table(df_features.iloc[:,1:].sort_values('Row'))
 
 # 5) General statistics
 
 if option == 'Crossed features':
         
     feat1 = st.sidebar.selectbox("1st feature ?",
-                                (df_columns))
+                                (df_columns.sort()))
     
     feat2 = st.sidebar.selectbox("2nd feature ?",
-                                (df_columns))
+                                (df_columns.sort()))
     
     with st.expander("More infomation about features:"):
-        st.table(df_features.iloc[:,1:])
+        st.table(df_features.iloc[:,1:].sort_values('Row'))
     
     stat_btn = st.sidebar.button('Crossed features')
     

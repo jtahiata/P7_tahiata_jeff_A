@@ -40,7 +40,7 @@ df_features = pd.read_csv(df_feat, low_memory=False, encoding='latin-1')
 
 option = st.sidebar.selectbox("Which application ?",
                               ('Display database','Solvability prediction',
-                                'Crossed features'))
+                                'Crossed features', 'Corr features'))
 
 # 2) Functions
 
@@ -153,7 +153,6 @@ if option == 'Crossed features':
                                 (df_columns_bool.sort_values()))
     
     cross_btn = st.sidebar.button('Crossed features')
-    corr_btn = st.sidebar.button('Corr features')
     
     if cross_btn:
         
@@ -167,12 +166,12 @@ if option == 'Crossed features':
 
         with st.expander("More infomation about features:"):
             st.table(df_features.iloc[:,1:].sort_values('Row'))
-        
-    elif corr_btn :
-        
-        st.subheader('Correlation matrix on non bool features')
-        fig = px.imshow(df.loc[:,df_columns_nbool].corr())
-        st.plotly_chart(fig)
+    
+if option == 'Corr features':      
+    
+    st.subheader('Correlation matrix on non bool features')
+    fig = px.imshow(df.loc[:,df_columns_nbool].corr())
+    st.plotly_chart(fig)
 
-        with st.expander("More infomation about features:"):
-            st.table(df_features.iloc[:,1:].sort_values('Row'))
+    with st.expander("More infomation about features:"):
+        st.table(df_features.iloc[:,1:].sort_values('Row'))

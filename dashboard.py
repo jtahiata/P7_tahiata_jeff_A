@@ -76,7 +76,7 @@ if option == 'Display database':
     st.write(df_original.head(100))
     
     st.write('Standardized database : 100 first customers')
-    st.dataframe(df.iloc[:,:1].head(100))
+    st.dataframe(df.iloc[:,1:].head(100))
     
     with st.expander("More infomation about features:"):
         st.table(df_features.iloc[:,1:])

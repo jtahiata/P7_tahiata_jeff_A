@@ -31,9 +31,6 @@ df_original = pd.read_csv(test_original)
 df_columns = df.columns[1:]
 df_features = pd.read_csv(df_feat, low_memory=False, encoding='latin-1')
 
-st.write(df_original.columns)
-st.write(df_columns)
-
 option = st.sidebar.selectbox("Which application ?",
                               ('Display database','Solvability prediction',
                                 'General statistics'))

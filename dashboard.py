@@ -25,10 +25,16 @@ test = 'test.csv'
 test_original = 'application_test.csv'
 df_feat = 'HomeCredit_columns_description.csv'
 
+# Standardize database
 df = pd.read_csv(test)
-
-df_original = pd.read_csv(test_original)
 df_columns = df.columns[1:]
+df_columns_bool = df.loc[:,df.nunique() == 2]
+df_columns_nbool = set(df_columns_bool) - set(df_columns)
+
+# Original database
+df_original = pd.read_csv(test_original)
+
+
 df_features = pd.read_csv(df_feat, low_memory=False, encoding='latin-1')
 
 option = st.sidebar.selectbox("Which application ?",
@@ -136,22 +142,32 @@ if option == 'Solvability prediction':
 
 if option == 'Crossed features':
         
-    feat1 = st.sidebar.selectbox("1st feature ?",
-                                (df_columns.sort_values()))
+    feat1 = st.sidebar.selectbox("1st feature (none bool)?",
+                                (df_columns_bool.sort_values()))
     
-    feat2 = st.sidebar.selectbox("2nd feature ?",
-                                (df_columns.sort_values()))
+    feat2 = st.sidebar.selectbox("2nd feature (none bool)?",
+                                (df_columns_bool.sort_values()))
+    
+    feat3 = st.sidebar.selectbox("3rd feature (bool)?",
+                                (df_columns_nbool.sort_values()))
     
     with st.expander("More infomation about features:"):
         st.table(df_features.iloc[:,1:].sort_values('Row'))
     
-    stat_btn = st.sidebar.button('Crossed features')
+    cross_btn = st.sidebar.button('Crossed features')
     
-    if stat_btn:
+    if cross_btn:
         
         st.subheader('Crossed features')
         fig = px.scatter(x = df_original.loc[:,feat1], y = df_original.loc[:,feat2],
-                         labels={"x": str(feat1), "y": str(feat2)})
+                         color = df_original.loc[:,feat3], 
+                         labels={"x": str(feat1), "y": str(feat2), "color": str(feat3)})
         plt.xlabel(str(feat1))
         plt.ylabel(str(feat2))
+        st.plotly_chart(fig)
+        
+    else :
+        
+        st.subheader('Crossed features')
+        fig = px.imshow(df.loc[:,df_columns_nbool])
         st.plotly_chart(fig)

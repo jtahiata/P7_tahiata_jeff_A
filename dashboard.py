@@ -132,7 +132,7 @@ if option == 'Solvability prediction':
         
     # Calculate Shap values
     expected_value = predict['Expected_value']
-    shap_values = predict['Shap_values']["0"]
+    shap_values = list(json.loads(predict['Shap_values'])["0"])
     
     st.write(shap_values)
     

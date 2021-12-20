@@ -14,6 +14,7 @@ import plotly.express as px
 # import plotly.graph_objects as go
 import requests
 import json
+import joblib
         
 # Shap init JavaScript visualization code to notebook
 shap.initjs()
@@ -55,7 +56,7 @@ def force():
     
     st.subheader('Figure 1 : Force plot')
     st.set_option('deprecation.showPyplotGlobalUse', False)
-    shap.force_plot(expected_value, shap_values[0],
+    shap.force_plot(expected_value, shap_values,
                     feature_names = df_columns, link='logit',
                     matplotlib=True, figsize=(12,3))
     st.pyplot(bbox_inches='tight',dpi=300,pad_inches=0)
@@ -67,16 +68,20 @@ def decision():
     
     st.subheader('Figure 2: Decision Plot')
     fig, ax = plt.subplots()
-    shap.decision_plot(expected_value, shap_values[0], df_columns,
+    shap.decision_plot(expected_value, shap_values, df_columns,
                                   link='logit', highlight=0)
     st.pyplot(fig)
     st.write('It plots the shap values using an additive strength layout. Here we can see which features contributed most positively or negatively to the prediction.')
 
 def summary():
     
+    model = joblib.load('https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/loan_model.joblib?raw=true')
+    exp = shap.TreeExplainer(model)
+    shap_val = exp.shap_values(df.iloc[:,1:].values)[0]
+    
     st.subheader('Figure 3: Summary Plot')
     fig, ax = plt.subplots()
-    shap.summary_plot(shap_values, df_columns)
+    shap.summary_plot(shap_val, df_columns)
     st.pyplot(fig)
     st.write('The summary plot combines feature importance with feature effects. Each point on the summary plot is a Shapley value for a feature and an instance. The position on the y-axis is determined by the feature and on the x-axis by the Shapley value. The color represents the value of the feature from low to high. Overlapping points are jittered in y-axis direction, so we get a sense of the distribution of the Shapley values per feature. The features are ordered according to their importance.')
         

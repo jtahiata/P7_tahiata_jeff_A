@@ -120,8 +120,6 @@ if option == 'Solvability prediction':
     st.write(data_json)
     predict = json.loads(r.content.decode("utf-8"))
     
-    st.write(predict['Shap_values'])
-    
     plot = st.sidebar.selectbox("Which plot ?",
                                 ('Force plot',
                                   'Decision plot',

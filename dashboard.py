@@ -132,6 +132,8 @@ if option == 'Solvability prediction':
     
     sp = list(shap_values)
     
+    st.write(sp)
+    
     if predict_btn:
         
         if acceptability == 0:

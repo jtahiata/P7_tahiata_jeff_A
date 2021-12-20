@@ -75,7 +75,7 @@ def decision():
 
 def summary():
     
-    model = joblib.load('https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/loan_model.joblib?raw=true')
+    model = joblib.load('https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/loan_model.joblib?raw=true', 'rb')
     exp = shap.TreeExplainer(model)
     shap_val = exp.shap_values(df.iloc[:,1:].values)[0]
     
@@ -133,8 +133,6 @@ if option == 'Solvability prediction':
     # Calculate Shap values
     expected_value = predict['Expected_value']
     shap_values = np.fromiter(json.loads(predict['Shap_values'])["0"].values(), dtype=float)
-    
-    st.write(shap_values)
     
     if predict_btn:
         

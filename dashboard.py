@@ -46,7 +46,7 @@ option = st.sidebar.selectbox("Which application ?",
 
 # 2) Functions
 
-@st.cache(persist= True, suppress_st_warning=True)
+@st.cache(persist= True)
 def summary():
     
     mLink = 'https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/loan_model.joblib?raw=true'

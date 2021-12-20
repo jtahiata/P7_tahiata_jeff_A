@@ -46,6 +46,7 @@ option = st.sidebar.selectbox("Which application ?",
 
 # 2) Functions
 
+@st.cache(persist= True, suppress_st_warning=True)
 def summary():
     
     mLink = 'https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/loan_model.joblib?raw=true'
@@ -60,6 +61,7 @@ def summary():
     st.pyplot(fig)
     st.write('The summary plot combines feature importance with feature effects. Each point on the summary plot is a Shapley value for a feature and an instance. The position on the y-axis is determined by the feature and on the x-axis by the Shapley value. The color represents the value of the feature from low to high. Overlapping points are jittered in y-axis direction, so we get a sense of the distribution of the Shapley values per feature. The features are ordered according to their importance.')
 
+@st.cache(persist= True, suppress_st_warning=True)
 def customer_idx():
 
     st.sidebar.subheader('Customer selection')
@@ -67,6 +69,7 @@ def customer_idx():
     idx = df[df_original['SK_ID_CURR'] == int(customer)].index
     return idx
 
+@st.cache(persist= True, suppress_st_warning=True)
 def force():
     
     st.subheader('Figure 1 : Force plot')
@@ -79,6 +82,7 @@ def force():
     st.write('This graph shows the path the model took for a particular decision based on the shap values of individual features. The individual plotted line represents a sample of data and how it reached a particular prediction.')
     st.write('There are several use cases for a decision plot. We present several cases here. 1. Show a large number of feature effects clearly. 2. Visualize multioutput predictions. 3. Display the cumulative effect of interactions. 4. Explore feature effects for a range of feature values. 5. Identify outliers. 6. Identify typical prediction paths. 7. Compare and contrast predictions for several models.')
 
+@st.cache(persist= True, suppress_st_warning=True)
 def decision():
     
     st.subheader('Figure 2: Decision Plot')

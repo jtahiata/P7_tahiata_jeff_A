@@ -15,6 +15,7 @@ import numpy as np
 import requests
 import json
 import joblib
+from io import BytesIO
         
 # Shap init JavaScript visualization code to notebook
 shap.initjs()
@@ -75,7 +76,9 @@ def decision():
 
 def summary():
     
-    model = joblib.load('https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/loan_model.joblib?raw=true', 'rb')
+    mLink = 'https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/loan_model.joblib?raw=true'
+    mfile = BytesIO(requests.get(mLink).content)
+    model = joblib.load(mfile)
     exp = shap.TreeExplainer(model)
     shap_val = exp.shap_values(df.iloc[:,1:].values)[0]
     

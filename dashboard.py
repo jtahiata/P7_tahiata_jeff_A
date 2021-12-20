@@ -10,7 +10,7 @@ import streamlit as st
 import shap
 import matplotlib.pyplot as plt
 import plotly.express as px
-import numpy as np
+# import numpy as np
 # import plotly.graph_objects as go
 import requests
 import json
@@ -55,7 +55,7 @@ def force():
     
     st.subheader('Figure 1 : Force plot')
     st.set_option('deprecation.showPyplotGlobalUse', False)
-    shap.force_plot(expected_value, shap_values,
+    shap.force_plot(expected_value, shap_values[0],
                     feature_names = df_columns, link='logit',
                     matplotlib=True, figsize=(12,3))
     st.pyplot(bbox_inches='tight',dpi=300,pad_inches=0)
@@ -67,7 +67,7 @@ def decision():
     
     st.subheader('Figure 2: Decision Plot')
     fig, ax = plt.subplots()
-    shap.decision_plot(expected_value, shap_values, df_columns,
+    shap.decision_plot(expected_value, shap_values[0], df_columns,
                                   link='logit', highlight=0)
     st.pyplot(fig)
     st.write('It plots the shap values using an additive strength layout. Here we can see which features contributed most positively or negatively to the prediction.')
@@ -115,6 +115,8 @@ if option == 'Solvability prediction':
     st.write(data_json)
     predict = json.loads(r.content.decode("utf-8"))
     
+    st.write(predict['Shap_values'])
+    
     plot = st.sidebar.selectbox("Which plot ?",
                                 ('Force plot',
                                   'Decision plot',
@@ -127,8 +129,7 @@ if option == 'Solvability prediction':
         
     # Calculate Shap values
     expected_value = predict['Expected_value']
-    shap_values_ = predict['Shap_values']
-    shap_values = np.array(shap_values_).flatten()
+    shap_values = predict['Shap_values']
     
     if predict_btn:
         

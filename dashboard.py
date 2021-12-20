@@ -10,7 +10,7 @@ import streamlit as st
 import shap
 import matplotlib.pyplot as plt
 import plotly.express as px
-# import numpy as np
+import numpy as np
 # import plotly.graph_objects as go
 import requests
 import json
@@ -132,7 +132,7 @@ if option == 'Solvability prediction':
         
     # Calculate Shap values
     expected_value = predict['Expected_value']
-    shap_values = json.loads(predict['Shap_values'])["0"].values()
+    shap_values = np.fromiter(json.loads(predict['Shap_values'])["0"].values(), dtype=float)
     
     st.write(shap_values)
     

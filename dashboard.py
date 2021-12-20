@@ -127,12 +127,8 @@ if option == 'Solvability prediction':
         
     # Calculate Shap values
     expected_value = predict['Expected_value']
-    shap_values_ = predict['Shap_values']
-    shap_values = np.array(shap_values_)
-    
-    sp = list(shap_values)
-    
-    st.write(sp)
+    shap_values = predict['Shap_values']
+    # shap_values = np.array(shap_values_)
     
     if predict_btn:
         

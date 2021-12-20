@@ -147,7 +147,7 @@ if option == 'Solvability prediction':
                          round(probability, 3))
         elif acceptability == 1:
             st.write('Customer will not refund the loan on time with a probability of ',
-                         round(1 - probability, 3))
+                         round(probability, 3))
             
         if plot == 'Force plot':
             force()

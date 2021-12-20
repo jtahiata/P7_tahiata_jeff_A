@@ -134,6 +134,8 @@ if option == 'Solvability prediction':
     expected_value = predict['Expected_value']
     shap_values = predict['Shap_values']
     
+    st.write(shap_values)
+    
     if predict_btn:
         
         if acceptability == 0:

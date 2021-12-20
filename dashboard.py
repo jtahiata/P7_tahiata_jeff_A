@@ -98,8 +98,10 @@ if option == 'Display database':
     
     st.subheader('Database')
     st.write(len(df),'customers inside the database')
+    summary_btn = st.sidebar.button('Display Summary plot')
     
-    summary()
+    if summary_btn:
+        summary()
         
     st.write('Original database : 100 first customers')
     st.write(df_original.head(100))

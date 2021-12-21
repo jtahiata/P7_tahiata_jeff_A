@@ -33,18 +33,11 @@ def predict():
     shap.initjs()
     explainer = shap.TreeExplainer(model)
     expected_value = explainer.expected_value[1]
-    shap_values_ = explainer.shap_values(df.values)[0][0]
-    shap_values = []
+    shap_values = pd.DataFrame(explainer.shap_values(df.values)[0][0])
 
-    for string in shap_values_:
-        new_string = float(str(string).replace("#12", ""))
-        shap_values.append(new_string)
+    print(shap_values.to_json())
 
-    print(data_json)
-    print(df.values)
-    print(shap_values)
-
-    return jsonify(Prediction=prediction, Probability=probability, Expected_value=expected_value, Shap_values=shap_values)
+    return jsonify(Prediction=prediction, Probability=probability, Expected_value=expected_value, Shap_values=shap_values.to_json())
 
 if __name__ == '__main__':
     app.run(debug=True)

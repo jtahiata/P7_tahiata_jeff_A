@@ -76,9 +76,8 @@ def force():
                     matplotlib=True, figsize=(12,3))
     st.pyplot(bbox_inches='tight',dpi=300,pad_inches=0)
     plt.clf()
-    st.write('This graph shows the path the model took for a particular decision based on the shap values of individual features. The individual plotted line represents a sample of data and how it reached a particular prediction.')
-    st.write('There are several use cases for a decision plot. We present several cases here. 1. Show a large number of feature effects clearly. 2. Visualize multioutput predictions. 3. Display the cumulative effect of interactions. 4. Explore feature effects for a range of feature values. 5. Identify outliers. 6. Identify typical prediction paths. 7. Compare and contrast predictions for several models.')
-
+    st.write('It plots the shap values using an additive strength layout. Here we can see which features contributed most positively or negatively to the prediction.')
+    
 def decision():
     
     st.subheader('Figure 2: Decision Plot')
@@ -86,7 +85,8 @@ def decision():
     shap.decision_plot(expected_value, shap_values, df_columns,
                                   link='logit', highlight=0)
     st.pyplot(fig)
-    st.write('It plots the shap values using an additive strength layout. Here we can see which features contributed most positively or negatively to the prediction.')
+    st.write('This graph shows the path the model took for a particular decision based on the shap values of individual features. The individual plotted line represents a sample of data and how it reached a particular prediction.')
+    st.write('There are several use cases for a decision plot. We present several cases here. 1. Show a large number of feature effects clearly. 2. Visualize multioutput predictions. 3. Display the cumulative effect of interactions. 4. Explore feature effects for a range of feature values. 5. Identify outliers. 6. Identify typical prediction paths. 7. Compare and contrast predictions for several models.')
 
 # 3) Display database
 

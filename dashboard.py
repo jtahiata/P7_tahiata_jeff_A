@@ -129,7 +129,8 @@ if option == 'Solvability prediction':
     
     plot = st.sidebar.selectbox("Which plot ?",
                                 ('Force plot',
-                                  'Decision plot'))
+                                 'Summary plot',
+                                 'Decision plot'))
     predict_btn = st.sidebar.button('Predict acceptability')
     st.subheader('Solvability prediction')
 

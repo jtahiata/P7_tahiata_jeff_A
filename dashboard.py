@@ -48,15 +48,15 @@ option = st.sidebar.selectbox("Which application ?",
 
 def summary():
     
-    mLink = 'https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/loan_model.joblib?raw=true'
-    mfile = BytesIO(requests.get(mLink).content)
-    model = joblib.load(mfile)
-    exp = shap.TreeExplainer(model)
-    shap_val = exp.shap_values(df.iloc[:,1:].values)[0]
+#     mLink = 'https://github.com/jtahiata/P7_tahiata_jeff_A/blob/main/loan_model.joblib?raw=true'
+#     mfile = BytesIO(requests.get(mLink).content)
+#     model = joblib.load(mfile)
+#     exp = shap.TreeExplainer(model)
+#     shap_val = exp.shap_values(df.iloc[:,1:].values)[0]
     
     st.subheader('Summary Plot')
     fig, ax = plt.subplots()
-    shap.summary_plot(shap_val, df.iloc[:,1:])
+    shap.summary_plot(shap_values, df.iloc[:,1:])
     st.pyplot(fig)
     st.write('The summary plot combines feature importance with feature effects. Each point on the summary plot is a Shapley value for a feature and an instance. The position on the y-axis is determined by the feature and on the x-axis by the Shapley value. The color represents the value of the feature from low to high. Overlapping points are jittered in y-axis direction, so we get a sense of the distribution of the Shapley values per feature. The features are ordered according to their importance.')
 
@@ -148,7 +148,9 @@ if option == 'Solvability prediction':
         elif acceptability == 1:
             st.write('Customer will not refund the loan on time with a probability of ',
                          round(probability, 3))
-            
+        if plot == 'Summary plot':
+            summary()
+        
         if plot == 'Force plot':
             force()
                 
